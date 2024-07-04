@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+const rateLimit = require('express-rate-limit')
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -15,6 +16,14 @@ fs.readFile(path.join(__dirname, 'listings.json'), 'utf8', (err, data) => {
   }
   listings = JSON.parse(data)
 })
+
+// Apply rate limiting middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+})
+
+app.use(limiter)
 
 app.get('/listings', (req, res) => {
   const page = parseInt(req.query.page) || 1
