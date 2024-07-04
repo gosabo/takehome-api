@@ -36,7 +36,7 @@ app.get('/listings', (req, res) => {
   // Filter listings based on the search query
   let filteredListings = listings.filter(
     (listing) =>
-      listing.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       listing.location.state
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
