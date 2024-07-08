@@ -45,10 +45,9 @@ app.get('/listings', (req, res) => {
 
   // Filter listings by activity if specified
   if (filterByActivity) {
-    console.log(filteredListings)
-    filteredListings = filteredListings.filter(
-      (listing) => listing.activity.toLowerCase === filterByActivity.toLowerCase
-    )
+    filteredListings = filteredListings.filter((listing) => {
+      return listing.activity.toLowerCase() === filterByActivity.toLowerCase()
+    })
   }
 
   // Sort listings based on the specified criteria
