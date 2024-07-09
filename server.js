@@ -2,6 +2,7 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const rateLimit = require('express-rate-limit')
+const filter = require('jade/lib/filters')
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -31,7 +32,7 @@ app.get('/listings', (req, res) => {
   const searchQuery = req.query.search || ''
   const sortBy = req.query.sortBy || 'price'
   const sortOrder = req.query.sortOrder === 'desc' ? 'desc' : 'asc'
-  const filterByActivity = req.query.activity
+  const filterByActivity = req.query.activity.split(',')
 
   // Filter listings based on the search query
   let filteredListings = listings.filter(
@@ -46,7 +47,7 @@ app.get('/listings', (req, res) => {
   // Filter listings by activity if specified
   if (filterByActivity) {
     filteredListings = filteredListings.filter((listing) => {
-      return listing.activity.toLowerCase() === filterByActivity.toLowerCase()
+      return filterByActivity.includes(listing.activity.toLowerCase())
     })
   }
 
