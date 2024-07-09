@@ -32,7 +32,9 @@ app.get('/listings', (req, res) => {
   const searchQuery = req.query.search || ''
   const sortBy = req.query.sortBy || 'price'
   const sortOrder = req.query.sortOrder === 'desc' ? 'desc' : 'asc'
-  const filterByActivity = req.query.activity.split(',')
+  const filterByActivity = req.query.activity
+    ? req.query.activity.split(',')
+    : []
 
   // Filter listings based on the search query
   let filteredListings = listings.filter(
