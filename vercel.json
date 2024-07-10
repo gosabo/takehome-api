@@ -11,5 +11,24 @@
       "src": "/listings",
       "dest": "/server.js"
     }
+  ],
+  "headers": [
+    {
+      "source": "/listings",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-Requested-With, Content-Type, Authorization"
+        }
+      ]
+    }
   ]
 }
