@@ -2,7 +2,6 @@ const express = require('express')
 const fs = require('fs')
 const path = require('path')
 const rateLimit = require('express-rate-limit')
-const filter = require('jade/lib/filters')
 
 const app = express()
 const PORT = process.env.PORT || 8000
