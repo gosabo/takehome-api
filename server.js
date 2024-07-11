@@ -26,14 +26,17 @@ const limiter = rateLimit({
 app.use(limiter)
 
 app.get('/listings', (req, res) => {
+  console.log('getting listings')
   const page = parseInt(req.query.page) || 1
   const limit = parseInt(req.query.limit) || 10
   const searchQuery = req.query.search || ''
   const sortBy = req.query.sortBy || 'price'
   const sortOrder = req.query.sortOrder === 'desc' ? 'desc' : 'asc'
-  const filterByActivity = req.query.activity
+  let filterByActivity = req.query.activity
     ? req.query.activity.split(',')
     : ['fishing', 'hunting', 'camping']
+
+  filterByActivity = filterByActivity.map((activity) => activity.toLowerCase())
 
   // Filter listings based on the search query
   let filteredListings = listings.filter(
@@ -45,13 +48,18 @@ app.get('/listings', (req, res) => {
       listing.location.city.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  console.log('before filter by activity', { filteredListings })
+
   // Filter listings by activity if specified
   if (filterByActivity) {
+    console.log({ filterByActivity })
     filteredListings = filteredListings.filter((listing) => {
+      console.log({ listing })
       return filterByActivity.includes(listing.activity.toLowerCase())
     })
   }
 
+  console.log('after filter by activity', { filteredListings })
   // Sort listings based on the specified criteria
   filteredListings.sort((a, b) => {
     if (sortBy === 'price' || sortBy === 'rating') {
